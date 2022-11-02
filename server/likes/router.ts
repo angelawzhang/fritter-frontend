@@ -2,7 +2,7 @@ import type {NextFunction, Request, Response} from 'express';
 import express from 'express';
 import LikesCollection from './collection';
 import UserCollection from '../user/collection';
-import { User } from 'user/model';
+import { User } from '../user/model';
 import * as userValidator from '../user/middleware';
 import * as util from './util';
 import { Types } from 'mongoose';

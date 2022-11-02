@@ -1,12 +1,9 @@
 import type {NextFunction, Request, Response} from 'express';
 import express from 'express';
 import GroupCollection from './collection';
-import UserCollection from '../user/collection';
-import { User } from 'user/model';
 import * as userValidator from '../user/middleware';
 import * as groupValidator from './middleware';
 import * as util from './util';
-import { Types } from 'mongoose';
 
 const router = express.Router();
 

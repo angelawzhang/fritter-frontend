@@ -4,6 +4,7 @@ import FreetCollection from './collection';
 import * as userValidator from '../user/middleware';
 import * as freetValidator from '../freet/middleware';
 import * as util from './util';
+import LikesCollection from '../likes/collection';
 
 const router = express.Router();
 
@@ -68,6 +69,7 @@ router.post(
   async (req: Request, res: Response) => {
     const userId = (req.session.userId as string) ?? ''; // Will not be an empty string since its validated in isUserLoggedIn
     const freet = await FreetCollection.addOne(userId, req.body.content);
+    const likes = await LikesCollection.addOne(freet);
 
     res.status(201).json({
       message: 'Your freet was created successfully.',

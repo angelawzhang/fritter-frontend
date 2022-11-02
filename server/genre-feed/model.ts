@@ -1,6 +1,6 @@
 import {Types} from 'mongoose';
 import {Schema, model} from 'mongoose';
-import { User } from 'user/model';
+import { User } from '../user/model';
 
 // Type definition for Likes on the backend
 export type GenreFeed = {

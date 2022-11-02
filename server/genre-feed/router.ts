@@ -1,14 +1,10 @@
-import type {NextFunction, Request, Response} from 'express';
+import type { Request, Response} from 'express';
 import express from 'express';
 import GenreFeedCollection from './collection';
 import UserCollection from '../user/collection';
-import { User } from '../user/model';
 import * as userValidator from '../user/middleware';
 import * as util from './util';
 import * as freetUtil from '../freet/util';
-import { Types } from 'mongoose';
-import FreetCollection from '../freet/collection';
-import { Freet } from 'freet/model';
 
 const router = express.Router();
 

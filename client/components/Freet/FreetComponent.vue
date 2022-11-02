@@ -35,6 +35,14 @@
           🗑️ Delete
         </button>
       </div>
+      <div
+        class="actions"
+      >
+        <button @click="likeFreet">
+          Like
+        </button>
+        <h1>Likes: {{ likes }}</h1>
+      </div>
     </header>
     <textarea
       v-if="editing"
@@ -78,7 +86,8 @@ export default {
     return {
       editing: false, // Whether or not this freet is in edit mode
       draft: this.freet.content, // Potentially-new content for this freet
-      alerts: {} // Displays success/error messages encountered during freet modification
+      alerts: {}, // Displays success/error messages encountered during freet modification
+      likes: 0 // Number of likes
     };
   },
   methods: {
@@ -109,6 +118,40 @@ export default {
         }
       };
       this.request(params);
+    },
+    likeFreet() {
+      /**
+       * Likes this freet.
+       */
+      const params = {
+        method: 'PUT',
+        body: JSON.stringify({username: this.$store.state.username}),
+        callback: () => {
+          this.$store.commit('alert', {
+            message: 'Successfully liked freet!', status: 'success'
+          });
+        }
+      };
+      this.likesRequest(params);
+    },
+    async getLikes(freetId) {
+      /**
+       * Gets the number of likes.
+       */
+      const url = `/api/likes?freetId=${freetId}`;
+      try {
+        const r = await fetch(url);
+        const res = await r.json();
+        if (!r.ok) {
+          throw new Error(res.error);
+        }
+
+        console.log(res);
+        return res[0].likes.length;
+      } catch (e) {
+        this.$set(this.alerts, e, 'error');
+        setTimeout(() => this.$delete(this.alerts, e), 3000);
+      }
     },
     submitEdit() {
       /**
@@ -161,7 +204,42 @@ export default {
         this.$set(this.alerts, e, 'error');
         setTimeout(() => this.$delete(this.alerts, e), 3000);
       }
+    },
+    async likesRequest(params) {
+      /**
+       * Submits a request to the likes's endpoint
+       * @param params - Options for the request
+       * @param params.body - Body for the request, if it exists
+       * @param params.callback - Function to run if the the request succeeds
+       */
+      const options = {
+        method: params.method, headers: {'Content-Type': 'application/json'}
+      };
+      if (params.body) {
+        options.body = params.body;
+      }
+
+      try {
+        const r = await fetch(`/api/likes/${this.freet._id}`, options);
+        if (!r.ok) {
+          const res = await r.json();
+          throw new Error(res.error);
+        }
+
+        this.editing = false;
+        this.$store.commit('refreshFreets');
+        // const r_likes = await fetch(`/api/likes?freetId=${this.freet._id}`, options);
+        this.likes += 1;
+        // this.likes = r_likes[0].likes.length;
+        params.callback();
+      } catch (e) {
+        this.$set(this.alerts, e, 'error');
+        setTimeout(() => this.$delete(this.alerts, e), 3000);
+      }
     }
+  },
+  async mounted() {
+    this.likes = await this.getLikes(this.freet._id);
   }
 };
 </script>

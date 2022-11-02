@@ -3,7 +3,6 @@ import UserModel, { User } from '../user/model';
 import FreetModel, { Freet } from '../freet/model';
 import type {GenreFeed} from './model';
 import GenreFeedModel from './model';
-import { isCurrentSessionUserExists } from 'user/middleware';
 
 class GenreFeedCollection {
     /**

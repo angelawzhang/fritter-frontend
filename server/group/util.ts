@@ -1,7 +1,5 @@
 import type {HydratedDocument, Types} from 'mongoose';
-import moment from 'moment';
 import type {Group} from './model';
-import { User } from 'user/model';
 
 // Update this if you add a property to the Freet type!
 type GroupResponse = {
