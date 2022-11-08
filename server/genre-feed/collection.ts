@@ -31,8 +31,8 @@ class GenreFeedCollection {
      */
      static async findByUser(userId: Types.ObjectId | string, genre: string): Promise<Array<HydratedDocument<Freet>>> {
         const user = await UserModel.findOne({_id: userId});
-        const allFreets = await FreetModel.find({authorId: {$in: [user.following]}});
-        console.log(genre);
+        const allFreets = await FreetModel.find({authorId: {$in: [user.following, user._id]}}).populate('authorId');
+        console.log(allFreets);
         if (genre != "") {
             return allFreets.filter(freet => freet.content.includes(genre));
         }

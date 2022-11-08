@@ -40,6 +40,11 @@
           />
         </div>
       </header>
+      <div class="left">
+          <h3>
+            Home
+          </h3>
+        </div>
       <section
         v-if="$store.state.freets.length"
       >

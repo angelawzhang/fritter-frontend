@@ -145,8 +145,6 @@ export default {
         if (!r.ok) {
           throw new Error(res.error);
         }
-
-        console.log(res);
         return res[0].likes.length;
       } catch (e) {
         this.$set(this.alerts, e, 'error');

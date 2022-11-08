@@ -59,7 +59,6 @@ class LikesCollection {
         const freet = await FreetModel.findOne({_id: freetId});
         const freetLikes = await LikesModel.findOne({freet: freet});
         if (!freetLikes.likes.includes(user.id)) {
-            console.log("NOOOO");
             freetLikes.likes.push(user.id);
             await freetLikes.save();
         }

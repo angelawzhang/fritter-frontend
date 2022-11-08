@@ -30,7 +30,6 @@ router.get(
     userValidator.isUserLoggedIn,
   ],
   async (req: Request, res: Response) => {
-    console.log(req.query);
     const userId = (req.session.userId as string);
     const genreInput = req.query.genre == undefined ? "" : req.query.genre as string;
     const feed = await GenreFeedCollection.findByUser(userId as string, genreInput);
@@ -54,7 +53,6 @@ router.get(
       userValidator.isUserLoggedIn,
     ],
     async (req: Request, res: Response) => {
-      console.log(req.body.id);
       const user = await UserCollection.findOneByUserId(req.body.id);
       const feed = await GenreFeedCollection.addOne(user);
   

@@ -10,6 +10,7 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
   state: {
     filter: null, // Username to filter shown freets by (null = show all)
+    genre: null,
     freets: [], // All freets created in the app
     username: null, // Username of the logged in user
     alerts: {} // global success/error messages encountered during submissions to non-visible forms
@@ -38,6 +39,13 @@ const store = new Vuex.Store({
        */
       state.filter = filter;
     },
+    updateGenre(state, genre) {
+      /**
+       * Update the stored freets genre to the specified one.
+       * @param genre - Genre to filter freets by
+       */
+      state.genre = genre;
+    },
     updateFreets(state, freets) {
       /**
        * Update the stored freets to the provided freets.
@@ -49,7 +57,8 @@ const store = new Vuex.Store({
       /**
        * Request the server for the currently available freets.
        */
-      const url = state.filter ? `/api/users/${state.filter}/freets` : '/api/freets';
+      // const url = state.filter ? `/api/users/${state.filter}/freets` : '/api/freets';
+      const url = state.genre ? '/api/feed?genre=${state.genre}' : 'api/feed';
       const res = await fetch(url).then(async r => r.json());
       state.freets = res;
     }
