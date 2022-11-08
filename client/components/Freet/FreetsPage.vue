@@ -26,25 +26,23 @@
         <div class="left">
           <h2>
             Viewing all freets
-            <span v-if="$store.state.filter">
-              by @{{ $store.state.filter }}
+            <span v-if="$store.state.genre">
+              by {{ $store.state.genre }}
             </span>
           </h2>
         </div>
         <div class="right">
           <GetFreetsForm
             ref="getFreetsForm"
-            value="author"
-            placeholder="🔍 Filter by author (optional)"
+            value="genre"
+            placeholder="🔍 Filter by genre (optional)"
             button="🔄 Get freets"
           />
         </div>
       </header>
       <div class="left">
-          <h3>
-            Home
-          </h3>
-        </div>
+        <GenreComponent :genre="$store.state.genre"/>
+      </div>
       <section
         v-if="$store.state.freets.length"
       >
@@ -65,12 +63,13 @@
 
 <script>
 import FreetComponent from '@/components/Freet/FreetComponent.vue';
+import GenreComponent from '@/components/Freet/GenreComponent.vue';
 import CreateFreetForm from '@/components/Freet/CreateFreetForm.vue';
 import GetFreetsForm from '@/components/Freet/GetFreetsForm.vue';
 
 export default {
   name: 'FreetPage',
-  components: {FreetComponent, GetFreetsForm, CreateFreetForm},
+  components: {FreetComponent, GenreComponent, GetFreetsForm, CreateFreetForm},
   mounted() {
     this.$refs.getFreetsForm.submit();
   }

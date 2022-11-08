@@ -31,8 +31,7 @@ class GenreFeedCollection {
      */
      static async findByUser(userId: Types.ObjectId | string, genre: string): Promise<Array<HydratedDocument<Freet>>> {
         const user = await UserModel.findOne({_id: userId});
-        const allFreets = await FreetModel.find({authorId: {$in: [user.following, user._id]}}).populate('authorId');
-        console.log(allFreets);
+        const allFreets = await FreetModel.find({authorId: {$in: [user.following, user._id]}}).sort({dateModified: -1}).populate('authorId');
         if (genre != "") {
             return allFreets.filter(freet => freet.content.includes(genre));
         }
@@ -53,6 +52,19 @@ class GenreFeedCollection {
         feed.genres.push(genre);
         await feed.save();
         return feed;
+    }
+
+    /**
+     * Get all genres of a user
+     * 
+     * @param {string} userId - The associated user
+     *
+     * @return {Promise<String[]>}
+     */
+     static async findGenres(userId: Types.ObjectId | string): Promise<String[]> {
+        const user = await UserModel.findOne({_id: userId});
+        const allGenres = await GenreFeedModel.findOne({user: user});
+        return allGenres.genres;
     }
 }
 

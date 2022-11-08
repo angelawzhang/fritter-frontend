@@ -1,8 +1,33 @@
+import { BootstrapVue } from 'bootstrap-vue'
+
 <template>
     <article class="genre">
-        <button
+        <!-- <button
           @click="filterGenre"
+        > -->
+        <!-- <div>
+            <b-card no-body>
+                <b-tabs pills card>
+                <b-tab title="Tab 1" active><b-card-text>Tab contents 1</b-card-text></b-tab>
+                <b-tab title="Tab 2"><b-card-text>Tab contents 2</b-card-text></b-tab>
+                </b-tabs>
+            </b-card>
+        </div> -->
+        <b-form-group
+        v-slot="{ ariaDescribedby }"
         >
+            <b-form-radio-group
+                id="btn-radios"
+                v-model="selected"
+                :options="options"
+                :aria-describedby="ariaDescribedby"
+                button-variant="outline-primary"
+                @change="filterGenre"
+                size="md"
+                name="radio-btn-outline"
+                buttons
+            ></b-form-radio-group>
+        </b-form-group>
     </article>
 </template>
 
@@ -11,22 +36,28 @@ export default {
   name: 'GenreComponent',
   props: {
     genre: {
-      type: Object,
+      type: String,
       required: true
     }
   },
   data() {
     return {
-    //   editing: false
-    };
+        selected: 'test',
+        options: [
+            { text: ' Radio 1', value: 'test' },
+            { text: ' Radio 3', value: 'radio2' },
+            { text: ' Radio 3', value: 'radio3' },
+            { text: ' Radio 4', value: 'radio4' }
+        ]
+    }
   },
   methods: {
-    startEditing() {
+    filterGenre() {
       /**
-       * Enables edit mode on this freet.
+       * Selects genre to filter
        */
-      this.editing = true; // Keeps track of if a freet is being edited
-      this.draft = this.freet.content; // The content of our current "draft" while being edited
+       this.$store.commit('updateGenre', this.selected);
+       this.$store.commit('refreshFreets');
     },
     submitEdit() {
       /**
@@ -80,41 +111,52 @@ export default {
         setTimeout(() => this.$delete(this.alerts, e), 3000);
       }
     },
-    async likesRequest(params) {
-      /**
-       * Submits a request to the likes's endpoint
-       * @param params - Options for the request
-       * @param params.body - Body for the request, if it exists
-       * @param params.callback - Function to run if the the request succeeds
-       */
-      const options = {
-        method: params.method, headers: {'Content-Type': 'application/json'}
-      };
-      if (params.body) {
-        options.body = params.body;
-      }
+    // async likesRequest(params) {
+    //   /**
+    //    * Submits a request to the likes's endpoint
+    //    * @param params - Options for the request
+    //    * @param params.body - Body for the request, if it exists
+    //    * @param params.callback - Function to run if the the request succeeds
+    //    */
+    //   const options = {
+    //     method: params.method, headers: {'Content-Type': 'application/json'}
+    //   };
 
-      try {
-        const r = await fetch(`/api/likes/${this.freet._id}`, options);
-        if (!r.ok) {
-          const res = await r.json();
-          throw new Error(res.error);
-        }
+    //   try {
+    //     const r = await fetch(`/api/feed/genres`);
+    //     if (!r.ok) {
+    //       const res = await r.json();
+    //       throw new Error(res.error);
+    //     }
 
-        this.editing = false;
-        this.$store.commit('refreshFreets');
-        // const r_likes = await fetch(`/api/likes?freetId=${this.freet._id}`, options);
-        this.likes += 1;
-        // this.likes = r_likes[0].likes.length;
-        params.callback();
-      } catch (e) {
-        this.$set(this.alerts, e, 'error');
-        setTimeout(() => this.$delete(this.alerts, e), 3000);
-      }
-    }
+    //     this.genres = r;
+    //     this.$store.commit('refreshFreets');
+    //     params.callback();
+    //   } catch (e) {
+    //     this.$set(this.alerts, e, 'error');
+    //     setTimeout(() => this.$delete(this.alerts, e), 3000);
+    //   }
+    // }
   },
   async mounted() {
-    this.likes = await this.getLikes(this.freet._id);
+    try {
+        const res = await fetch('/api/feed/genres').then(async r => r.json());
+        console.log(res.length);
+
+        this.options = [{ text: " 🏠", value: "" }];
+        for (let i = 0; i < Math.min(res.length, 4); i++) {
+            this.options.push({ text: " " + res[i], value: res[i] });
+        }
+        this.$store.commit('refreshFreets');
+    } catch (e) {
+    }
   }
 };
 </script>
+
+<!-- <style scoped>
+b-form-radio-group{
+    display: none;
+    
+}
+</style> -->

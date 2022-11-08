@@ -39,6 +39,27 @@ router.get(
 );
 
 /**
+ * Get genres
+ *
+ * @name GET /api/feed/genres
+ *
+ * @return {String[]} - An array of feeds
+ * @throws {403} - If user is not logged in
+ *
+ */
+ router.get(
+  '/genres',
+  [
+    userValidator.isUserLoggedIn,
+  ],
+  async (req: Request, res: Response) => {
+    const userId = (req.session.userId as string);
+    const genres = await GenreFeedCollection.findGenres(userId as string);
+    res.status(200).json(genres);
+  }
+);
+
+/**
  * Create a new feed.
  *
  * @name POST /api/feed
