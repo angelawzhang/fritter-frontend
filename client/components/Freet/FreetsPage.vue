@@ -26,23 +26,40 @@
         <div class="left">
           <h2>
             Viewing all freets
-            <span v-if="$store.state.genre">
-              by {{ $store.state.genre }}
+            <span v-if="$store.state.selectedGenre">
+              in the {{ $store.state.selectedGenre }} genre
             </span>
           </h2>
+        </div>
+        <div class="right">
+          <!-- <GetFreetsForm
+            ref="getFreetsForm"
+            value="genre"
+            placeholder="🔍 Filter by genre (optional)"
+            button="🔄 Get freets"
+          /> -->
+          <!-- <AddGenreForm
+            ref="addGenreForm"
+            value="genre"
+            placeholder="🔍 Filter by genre (optional)"
+            button="🔄 Get freets"
+          /> -->
+        </div>
+      </header>
+      <header>
+        <div class="left">
+          <GenreComponent :selectedGenre="$store.state.selectedGenre"/>
         </div>
         <div class="right">
           <GetFreetsForm
             ref="getFreetsForm"
             value="genre"
-            placeholder="🔍 Filter by genre (optional)"
+            placeholder="🔍 Filter by genre"
             button="🔄 Get freets"
           />
         </div>
       </header>
-      <div class="left">
-        <GenreComponent :genre="$store.state.genre"/>
-      </div>
+      
       <section
         v-if="$store.state.freets.length"
       >
@@ -66,10 +83,11 @@ import FreetComponent from '@/components/Freet/FreetComponent.vue';
 import GenreComponent from '@/components/Freet/GenreComponent.vue';
 import CreateFreetForm from '@/components/Freet/CreateFreetForm.vue';
 import GetFreetsForm from '@/components/Freet/GetFreetsForm.vue';
+import AddGenreForm from '@/components/Freet/AddGenreForm.vue';
 
 export default {
   name: 'FreetPage',
-  components: {FreetComponent, GenreComponent, GetFreetsForm, CreateFreetForm},
+  components: {FreetComponent, GenreComponent, GetFreetsForm, CreateFreetForm, AddGenreForm},
   mounted() {
     this.$refs.getFreetsForm.submit();
   }

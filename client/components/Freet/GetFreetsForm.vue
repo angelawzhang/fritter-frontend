@@ -7,7 +7,7 @@ export default {
   name: 'GetFreetsForm',
   mixins: [InlineForm],
   data() {
-    return {value: this.$store.state.genre};
+    return {value: this.$store.state.selectedGenre};
   },
   methods: {
     async submit() {
@@ -22,7 +22,7 @@ export default {
         this.$store.commit('updateGenre', this.value);
         this.$store.commit('updateFreets', res);
       } catch (e) {
-        if (this.value === this.$store.state.genre) {
+        if (this.value === this.$store.state.selectedGenre) {
           // This section triggers if you filter to a user but they
           // change their genre when you refresh
           this.$store.commit('updateGenre', null);
@@ -30,7 +30,7 @@ export default {
           this.$store.commit('refreshFreets');
         } else {
           // Otherwise reset to previous genre
-          this.value = this.$store.state.genre;
+          this.value = this.$store.state.selectedGenre;
         }
 
         this.$set(this.alerts, e, 'error');

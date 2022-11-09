@@ -24,7 +24,7 @@ next();
  * Checks if groupId in req.params exists
  */
  const isIdValid = async (req: Request, res: Response, next: NextFunction) => {
-    const { groupId } = req.params as {groupId: string};
+    const { groupId } = req.body as {groupId: string};
   
     if (!groupId || !Types.ObjectId.isValid(groupId)) {
       res.status(404).json({error: `Incorrect input for Group ID.`});

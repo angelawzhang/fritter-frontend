@@ -73,8 +73,9 @@ router.post(
 /**
  * Add a new member to a group.
  * 
- * @name PUT /api/groups/:groupId
+ * @name PUT /api/groups
  * 
+ * @param {string} groupId - The id of the group
  * @param {string} username - The username of the user
  * @return {GroupResponse} - the updated group
  * 
@@ -83,13 +84,14 @@ router.post(
  * 
  */
 router.put(
-    '/:groupId?',
+    '/',
     [
       userValidator.isUserLoggedIn,
       groupValidator.isIdValid
     ],
     async (req: Request, res: Response) => {
-      const group = await GroupCollection.addUserToGroup(req.params.groupId, req.body.username);
+      console.log(req.body);
+      const group = await GroupCollection.addUserToGroup(req.body.groupId, req.body.username);
       res.status(200).json({
         message: 'Your group was updated successfully.',
         group: util.constructGroupResponse(group)

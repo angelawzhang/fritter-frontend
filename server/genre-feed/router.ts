@@ -87,7 +87,7 @@ router.get(
 /**
  * Add a genre to a feed
  * 
- * @name PUT /api/feed/:userId
+ * @name PUT /api/feed
  * 
  * @param {string} genre - The name of the genre
  * @return {GenreFeedResponse} - the updated feed
@@ -96,12 +96,13 @@ router.get(
  * 
  */
  router.put(
-    '/:userId?',
+    '/',
     [
       userValidator.isUserLoggedIn,
     ],
     async (req: Request, res: Response) => {
-      const feed = await GenreFeedCollection.addGenre(req.params.userId, req.body.genre);
+      const userId = (req.session.userId as string);
+      const feed = await GenreFeedCollection.addGenre(userId, req.body.genre);
       res.status(200).json({
         message: 'Genre added successfully.',
         feed: util.constructGenreFeedResponse(feed)
