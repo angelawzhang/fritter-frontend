@@ -48,7 +48,7 @@
 <style scoped>
 nav {
     padding: 1vw 2vw;
-    background-color: #ccc;
+    background-color: #e3ecfc;
     display: flex;
     justify-content: space-between;
     align-items: center;

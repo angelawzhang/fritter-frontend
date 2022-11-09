@@ -30,11 +30,12 @@
     <article v-else>
       <p>{{ content }}</p>
     </article>
-    <button
+    <b-button
       type="submit"
+      variant="primary"
     >
       {{ title }}
-    </button>
+    </b-button>
     <section class="alerts">
       <article
         v-for="(status, alert, index) in alerts"
@@ -61,6 +62,7 @@ export default {
       hasBody: false, // Whether or not form request has a body
       setUsername: false, // Whether or not stored username should be updated after form submission
       refreshFreets: false, // Whether or not stored freets should be updated after form submission
+      refreshGroups: false,
       alerts: {}, // Displays success/error messages encountered during form submission
       callback: null // Function to run after successful form submission
     };
@@ -103,6 +105,10 @@ export default {
           this.$store.commit('refreshFreets');
         }
 
+        if (this.refreshGroups) {
+          this.$store.commit('refreshGroups');
+        }
+
         if (this.callback) {
           this.callback();
         }
@@ -117,13 +123,15 @@ export default {
 
 <style scoped>
 form {
-  border: 1px solid #111;
-  padding: 0.5rem;
+  box-shadow: 0px 0px 8px rgb(218, 218, 218);
+  border-radius: 10px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   margin-bottom: 14px;
   position: relative;
+  background-color: white;
 }
 
 article > div {

@@ -4,6 +4,7 @@ import GroupCollection from './collection';
 import * as userValidator from '../user/middleware';
 import * as groupValidator from './middleware';
 import * as util from './util';
+import UserCollection from '../user/collection';
 
 const router = express.Router();
 
@@ -61,7 +62,8 @@ router.post(
   ],
   async (req: Request, res: Response) => {
     const userId = (req.session.userId as string);
-    const group = await GroupCollection.addOne(req.body.name, userId);
+    const user = await UserCollection.findOneByUserId(userId);
+    const group = await GroupCollection.addOne(req.body.name, user.username);
 
     res.status(201).json({
       message: 'Your group was created successfully.',

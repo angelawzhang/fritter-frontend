@@ -13,7 +13,7 @@ import AddGenreForm from '@/components/Freet/AddGenreForm.vue'
                 :aria-describedby="ariaDescribedby"
                 button-variant="outline-primary"
                 @change="filterGenre"
-                size="md"
+                size="lg"
                 name="radio-btn-outline"
                 buttons
             ></b-form-radio-group>
@@ -62,9 +62,14 @@ export default {
 };
 </script>
 
-<!-- <style scoped>
+<style scoped>
+
 b-form-radio-group{
     display: none;
-    
+    margin-bottom: 20px;
 }
-</style> -->
+.genre {
+    margin-bottom: 20px;
+}
+
+</style>

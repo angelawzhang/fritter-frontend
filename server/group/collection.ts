@@ -8,14 +8,14 @@ class GroupCollection {
    * Add a new group
    *
    * @param {string} name - The name of the group
-   * @param {string} userId - The user making the group
+   * @param {string} username - The user making the group
    * @return {Promise<HydratedDocument<Group>>} - The newly created group
    */
 
-    static async addOne(name: string, userId: string): Promise<HydratedDocument<Group>> {
+    static async addOne(name: string, username: string): Promise<HydratedDocument<Group>> {
         const group = new GroupModel({
             name: name, 
-            members: [userId]
+            members: [username]
         });
         await group.save(); // Saves group to MongoDB
         return group;
@@ -49,9 +49,8 @@ class GroupCollection {
      * @return {Promise<HydratedDocument<Group>> | Promise<null>} - The group with the given name, if any
      */
      static async addUserToGroup(groupId: Types.ObjectId | string, username: string): Promise<HydratedDocument<Group>> {
-        const user = await UserModel.findOne({username: new RegExp(`^${username.trim()}$`, 'i')});
         const group = await GroupModel.findOne({_id: groupId});
-        group.members.push(user.id as string);
+        group.members.push(username);
         await group.save();
         return group;
     }

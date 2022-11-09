@@ -21,7 +21,7 @@
         </h3>
       </article>
     </section>
-    <section>
+    <section v-if="$store.state.username">
       <header>
         <div class="left">
           <h2>
@@ -32,18 +32,6 @@
           </h2>
         </div>
         <div class="right">
-          <!-- <GetFreetsForm
-            ref="getFreetsForm"
-            value="genre"
-            placeholder="🔍 Filter by genre (optional)"
-            button="🔄 Get freets"
-          /> -->
-          <!-- <AddGenreForm
-            ref="addGenreForm"
-            value="genre"
-            placeholder="🔍 Filter by genre (optional)"
-            button="🔄 Get freets"
-          /> -->
         </div>
       </header>
       <header>
@@ -54,7 +42,7 @@
           <GetFreetsForm
             ref="getFreetsForm"
             value="genre"
-            placeholder="🔍 Filter by genre"
+            placeholder="🔍 Find genre"
             button="🔄 Get freets"
           />
         </div>
@@ -95,6 +83,11 @@ export default {
 </script>
 
 <style scoped>
+main {
+  margin-left: 100px;
+  margin-right: 100px;
+}
+
 section {
   display: flex;
   flex-direction: column;
@@ -104,6 +97,8 @@ header, header > * {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-top: 10px;
+    /* margin-bottom: 20px; */
 }
 
 button {

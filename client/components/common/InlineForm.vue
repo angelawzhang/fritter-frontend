@@ -8,11 +8,12 @@
       type="text"
       :placeholder="placeholder"
     >
-    <button
+    <b-button
       type="submit"
+      variant="outline-primary"
     >
       {{ button }}
-    </button>
+    </b-button>
     <section class="alerts">
       <article
         v-for="(status, alert, index) in alerts"
@@ -48,10 +49,15 @@ export default {
 form {
     display: flex;
     position: relative;
+    margin-bottom: 20px;
 }
 
 input {
+    /* box-shadow: 0px 0px 3px rgb(218, 218, 218); */
+    border-radius: 5px;
     padding: 0 5px;
     min-width: 200px;
+    background-color: white;
+    margin-right: 5px;
 }
 </style>

@@ -9,40 +9,6 @@
       <h3 class="author">
         @{{ freet.author }}
       </h3>
-      <div
-        v-if="$store.state.username === freet.author"
-        class="actions"
-      >
-        <button
-          v-if="editing"
-          @click="submitEdit"
-        >
-          ✅ Save changes
-        </button>
-        <button
-          v-if="editing"
-          @click="stopEditing"
-        >
-          🚫 Discard changes
-        </button>
-        <button
-          v-if="!editing"
-          @click="startEditing"
-        >
-          ✏️ Edit
-        </button>
-        <button @click="deleteFreet">
-          🗑️ Delete
-        </button>
-      </div>
-      <div
-        class="actions"
-      >
-        <button @click="likeFreet">
-          Like
-        </button>
-        <h1>Likes: {{ likes }}</h1>
-      </div>
     </header>
     <textarea
       v-if="editing"
@@ -60,6 +26,45 @@
       Posted at {{ freet.dateModified }}
       <i v-if="freet.edited">(edited)</i>
     </p>
+    <div>
+      <div
+        class="left"
+      >
+        <h3 class="likesCount">{{ likes }} ❤️</h3>
+        <b-button @click="likeFreet" variant="outline-primary">
+          Like
+        </b-button>
+      </div>
+    </div>
+      <div
+        v-if="$store.state.username === freet.author"
+        class="actions"
+      >
+        <b-button
+          v-if="editing"
+          variant="outline-primary"
+          @click="submitEdit"
+        >
+          ✅ Save changes
+        </b-button>
+        <b-button
+          v-if="editing"
+          variant="outline-primary"
+          @click="stopEditing"
+        >
+          🚫 Discard changes
+        </b-button>
+        <b-button
+          v-if="!editing"
+          variant="outline-primary"
+          @click="startEditing"
+        >
+          ✏️ Edit
+        </b-button>
+        <b-button @click="deleteFreet" variant="outline-primary">
+          🗑️ Delete
+        </b-button>
+      </div>
     <section class="alerts">
       <article
         v-for="(status, alert, index) in alerts"
@@ -244,8 +249,39 @@ export default {
 
 <style scoped>
 .freet {
-    border: 1px solid #111;
+    box-shadow: 0px 0px 8px rgb(240, 240, 240);
+    border-radius: 10px;
     padding: 20px;
     position: relative;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background-color: white;
+}
+.left {
+  display: flex;
+	align-items: left;
+  padding-bottom: 20px;
+}
+.likesCount {
+  margin-right: 20px;
+}
+
+.actions {
+    font-size: 20px;
+    display: grid;
+    gap: 16px;
+    grid-auto-flow: column;
+    align-items: center;
+}
+.content {
+  padding-top: 5px;
+  font-size: 30px;
+}
+.info {
+  color: gray;
+}
+.author {
+  color: black;
+  font-size: 20px;
 }
 </style>

@@ -13,6 +13,7 @@ const store = new Vuex.Store({
     genres: [],
     freets: [], // All freets created in the app
     groups: [],
+    groupFilter: null,
     username: null, // Username of the logged in user
     alerts: {} // global success/error messages encountered during submissions to non-visible forms
   },
@@ -54,6 +55,13 @@ const store = new Vuex.Store({
        */
       state.groups = groups;
     },
+    updateGroupFilter(state, groupFilter) {
+      /**
+       * Update the stored groups to the provided groups.
+       * @param groupFilter - Groups to store
+       */
+      state.groupFilter = groupFilter;
+    },
     updateFreets(state, freets) {
       /**
        * Update the stored freets to the provided freets.
@@ -68,6 +76,14 @@ const store = new Vuex.Store({
       const url = state.selectedGenre ? `/api/feed?genre=${state.selectedGenre}` : 'api/feed';
       const res = await fetch(url).then(async r => r.json());
       state.freets = res;
+    },
+    async refreshGroups(state) {
+      /**
+       * Request the server for the currently available groups.
+       */
+      const url = state.groupFilter ? `/api/groups?name=${state.groupFilter}` : 'api/groups';
+      const res = await fetch(url).then(async r => r.json());
+      state.groups = res;
     }
   },
   // Store data across page refreshes, only discard on browser close

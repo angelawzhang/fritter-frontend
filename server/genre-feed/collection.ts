@@ -15,7 +15,7 @@ class GenreFeedCollection {
     static async addOne(user: User): Promise<HydratedDocument<GenreFeed>> {
         const feed = new GenreFeedModel({
             user: user,
-            genres: []
+            genres: ["Boston", "Dogs"]
         });
         await feed.save(); // Saves to MongoDB
         return feed;
@@ -31,7 +31,8 @@ class GenreFeedCollection {
      */
      static async findByUser(userId: Types.ObjectId | string, genre: string): Promise<Array<HydratedDocument<Freet>>> {
         const user = await UserModel.findOne({_id: userId});
-        const allFreets = await FreetModel.find({authorId: {$in: [user.following, user._id]}}).sort({dateModified: -1}).populate('authorId');
+        // const allFreets = await FreetModel.find({authorId: {$in: [user.following, user._id]}}).sort({dateModified: -1}).populate('authorId');
+        const allFreets = await FreetModel.find().sort({dateModified: -1}).populate('authorId');
         if (genre != "") {
             return allFreets.filter(freet => freet.content.includes(genre));
         }

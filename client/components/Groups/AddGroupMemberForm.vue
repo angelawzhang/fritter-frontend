@@ -16,7 +16,7 @@ export default {
         {id: 'username', label: 'Username', value: ''}
       ],
       title: 'Add a group member',
-      refreshFreets: true,
+      refreshGroups: true,
       callback: () => {
         const message = 'Successfully added a group member!';
         this.$set(this.alerts, message, 'success');
